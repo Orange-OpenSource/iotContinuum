@@ -1,0 +1,19 @@
+# Copyright (c) Lacroix Impulse 2023 (France)
+# SPDX-License-Identifier: Apache-2.0
+
+module = BSP_BME280
+module-str = bsp_bme280
+source "subsys/logging/Kconfig.template.log_config"
+
+config $(module)
+   bool "Enable BSP INERTIAL"
+   select BSP
+   select I2C
+   select GPIO
+   select SENSOR
+   default n
+
+config $(module)_SHELL
+   bool "Enable BSP BME280 SHELL"
+   depends on SHELL
+   default n

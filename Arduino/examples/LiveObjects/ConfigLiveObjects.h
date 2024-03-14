@@ -36,13 +36,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #define LIVEOBJECTS_MQTT_PORT   1883
 #define LIVEOBJECTS_HOST        "liveobjects.orange-business.com"
 
-#define DEVICE_NAME             "KeyBox"
-#define STREAM_ID_CONFIG        "urn:lo:nsid:KeyBoxConfig"
-#define STREAM_ID_DATA          "urn:lo:nsid:KeyBoxData"
-#define STREAM_ID_EVENT         "urn:lo:nsid:KeyBoxEvent"
+#define DEVICE_NAME             "Sample"
+#define STREAM_ID_CONFIG        "urn:lo:nsid:SampleConfig"
+#define STREAM_ID_DATA          "urn:lo:nsid:SampleData"
+#define STREAM_ID_EVENT         "urn:lo:nsid:SampleEvent"
 
 #define MQTT_USER_NAME          "json+device"
-#define MQTT_PASSWORD           "<liveobjects key>"
+#define MQTT_PASSWORD           "<key>"
 
 #define LIVEOBJECTS_DATA_TOPIC  "dev/data"
 #define LIVEOBJECTS_CMD_TOPIC   "dev/cmd"

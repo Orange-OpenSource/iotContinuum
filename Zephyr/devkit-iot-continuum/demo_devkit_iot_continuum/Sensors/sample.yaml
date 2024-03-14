@@ -1,0 +1,16 @@
+# Copyright (c) Lacroix Impulse 2023 (France)
+# SPDX-License-Identifier: Apache-2.0
+
+# This file is provided so that the application can be compiled using Twister,
+# the Zephyr testing tool. In this file, multiple combinations can be specified,
+# so that you can easily test all of them locally or in CI.
+sample:
+  description: demo_devkit
+  name: demo_devkit
+common:
+    tags: demo_devkit
+    platform_allow: devkit_iotcontinuum
+tests:
+  sample.demo_devkit:
+    build_only: true
+    tags: demo_devkit

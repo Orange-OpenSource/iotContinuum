@@ -1,0 +1,6 @@
+# Copyright (c) Lacroix Impulse 2023 (France)
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_DEVKIT_IOT_CONTINUUM
+	bool "devkit_iot_continuum board definition"
+	depends on SOC_STM32U585XX

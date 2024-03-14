@@ -1,0 +1,216 @@
+/*
+ * Copyright (c) 2023 Lacroix Impulse
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <st/u5/stm32u585Xi.dtsi>
+#include <st/u5/stm32u585ciux-pinctrl.dtsi>
+
+// ALIASES SECTION
+/ {
+	 aliases {
+		//UART ALIASES
+		usart1 = &usart1;
+		usart3 = &usart3;
+		//I2C ALIASES
+		i2c1 = &i2c1;
+
+		//GPIO OUTPUT
+		switchcom =&switchcom;
+
+		// GPIO INPUT
+		button=&button;
+		
+		//GPIO EXTENDER OUTPUT
+		led0= &blueled;
+		ledredext = &redled;
+		ledgreenext = &greenled;
+		ledblueext = &blueled;
+	};
+};
+
+// DECLARATION SECTION
+
+// LTE Sierra HL7812
+&usart1 {
+	pinctrl-0 = <&usart1_rx_pa10 &usart1_tx_pa9>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+	swir,hl7812 {
+		compatible = "swir,hl7812";
+		status = "okay";
+		mdm-reset-gpios = <&gpiob 12 GPIO_ACTIVE_HIGH>;
+		mdm-wake-gpios = <&gpioa 15 GPIO_ACTIVE_HIGH>;
+		mdm-pwr-on-gpios = <&gpiob 0 GPIO_ACTIVE_LOW>;
+		mdm-uart-cts-gpios = <&gpiob 0 0>;
+		mdm-vgpio-gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
+		// Following pins are required, Put unconnected pins to it
+		mdm-uart-dsr-gpios = <&gpioa 0 0>;
+		mdm-fast-shutd-gpios = <&gpioa 1 0>;
+		mdm-gpio6-gpios = <&gpiob 14 0>;
+	};
+};
+
+// Shell & Console
+&usart3 {
+	pinctrl-0 = <&usart3_rx_pa5 &usart3_tx_pa7>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+};
+
+&clk_lse {
+	status = "okay";
+};
+
+&clk_msis {
+	status = "okay";
+	msi-range = <0>;
+	msi-pll-mode;
+};
+
+&rcc {
+	clocks = <&clk_msis>;
+	clock-frequency = <DT_FREQ_M(48)>;
+	ahb-prescaler = <1>;
+	apb1-prescaler = <1>;
+	apb2-prescaler = <1>;
+	apb3-prescaler = <1>;
+};
+
+&rng {
+	status = "okay";
+};
+
+// internal watchdog
+&iwdg {
+	status = "okay";
+};
+
+// I2C1: LSM6DSO (inertial sensor on 0x6a) // BME280 (temperature,humidty and pression sensor on 0x76)
+//       PCA9538 (gpio expender device on 0x70) // 
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+	pinctrl-names = "default";
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_FAST>;
+	lsm6dso@6a {
+		compatible = "st,lsm6dso";
+		reg = <0x6a>;
+		irq-gpios = <&gpiob 8 0>;
+	};
+	bme280@76 {
+		compatible = "bosch,bme280";
+		reg = <0x76>;
+	};
+	gpio_ext0: pca953x@38 {
+		compatible = "ti,tca9538";
+		reg = <0x38>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+	};
+};
+
+// SPI1: Expension SPI
+&spi1 {
+	pinctrl-0 = <&spi1_sck_pb3 &spi1_miso_pb4 &spi1_mosi_pb5>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+// RTC
+&rtc {
+	interrupts = <2 7>;
+	status = "okay";
+};
+
+// ETOR1_LPTIMER
+&lptim1 {
+	status = "okay";
+};
+
+// ETOR2_LPTIMER
+&lptim3 {
+		status = "okay";
+};
+
+/ {
+	gpio_output {
+		compatible = "gpio-keys";
+		// Free GPIO
+		a0: GPIO_PA0 {
+			gpios = < &gpioa 0 GPIO_ACTIVE_HIGH >;
+		};
+		a1: GPIO_PA1 {
+			gpios = < &gpioa 1 GPIO_ACTIVE_HIGH >;
+		};
+		tx_do: GPIO_PA2 {
+			gpios = < &gpioa 2 GPIO_ACTIVE_HIGH >;
+		};
+		rx_do: GPIO_PA3 {
+			gpios = < &gpioa 3 GPIO_ACTIVE_HIGH >;
+		};
+		a2: GPIO_PA6 {
+			gpios = < &gpioa 6 GPIO_ACTIVE_HIGH >;
+		};
+		d10: GPIO_PA8 {
+			gpios = < &gpioa 8 GPIO_ACTIVE_HIGH >;
+		};
+		d11: GPIO_PA11 {
+			gpios = < &gpioa 11 GPIO_ACTIVE_HIGH >;
+		};
+		a3: GPIO_PB0 {
+			gpios = < &gpiob 0 GPIO_ACTIVE_HIGH >;
+		};
+		a4: GPIO_PB1 {
+			gpios = < &gpiob 1 GPIO_ACTIVE_HIGH >;
+		};
+		a5: GPIO_PB2 {
+			gpios = < &gpiob 2 GPIO_ACTIVE_HIGH >;
+		};
+		d5: GPIO_PB10 {
+			gpios = < &gpiob 10 GPIO_ACTIVE_HIGH >;
+		};
+		d12: GPIO_PB13 {
+			gpios = < &gpiob 13 GPIO_ACTIVE_HIGH >;
+		};
+		d6: GPIO_PB14 {
+			gpios = < &gpiob 14 GPIO_ACTIVE_HIGH >;
+		};
+		d9: GPIO_PB15 {
+			gpios = < &gpiob 15 GPIO_ACTIVE_HIGH >;
+		};
+		// Active GPIO
+		switchcom: GPIO_PB8 {
+			gpios = < &gpiob 8 GPIO_ACTIVE_HIGH >;
+		};
+	};
+	leds {
+		compatible = "gpio-leds";
+		redled: led_0 {
+			gpios = < &gpio_ext0 3 GPIO_ACTIVE_LOW >;
+		};
+		greenled: led_1 {
+			gpios = < &gpio_ext0 4 GPIO_ACTIVE_LOW >;
+		};
+		blueled: led_2 {
+			gpios = < &gpio_ext0 5 GPIO_ACTIVE_LOW >;
+		};
+	};
+	gpio_input {
+		compatible = "gpio-keys";
+		// input gpio
+		bat_level: GPIO_PA4 {
+			gpios = < &gpioa 4 GPIO_ACTIVE_HIGH >;
+		};
+		button: GPIO_PA12 {
+			gpios = < &gpioa 12 GPIO_ACTIVE_HIGH >;
+		};
+		lsm6dso_it: GPIO_PB8 {
+			gpios = < &gpiob 8 GPIO_ACTIVE_HIGH >;
+		};
+	};	
+};
