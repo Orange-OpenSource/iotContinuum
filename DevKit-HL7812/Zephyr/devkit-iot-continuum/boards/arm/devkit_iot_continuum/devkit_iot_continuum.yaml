@@ -1,0 +1,20 @@
+# Copyright (c) Lacroix Impulse 2023 (France)
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: devkit_iot_continuum
+name: devkit_iot_continuum board based on stm32u585 MCU
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 786
+flash: 2048
+supported:
+  - usb_device
+  - spi
+  - dac
+  - adc
+  - watchdog
+  - i2c

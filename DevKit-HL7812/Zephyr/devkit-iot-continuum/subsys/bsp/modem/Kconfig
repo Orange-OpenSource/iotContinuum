@@ -1,0 +1,18 @@
+# Copyright (c) Lacroix Impulse 2023 (France)
+# SPDX-License-Identifier: Apache-2.0
+
+module = BSP_MODEM
+module-str = bsp_modem
+source "subsys/logging/Kconfig.template.log_config"
+
+config BSP_MODEM
+   bool "Enable BSP MODEM"
+   select BSP
+   select UART
+   select GPIO
+   select NETWORKING
+   select MODEM
+   select MODEM_HL7812
+   select MODEM_SHELL
+   select MODEM_SIM_NUMBERS
+   default n
