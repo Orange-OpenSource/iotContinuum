@@ -28,7 +28,7 @@ Read more on [IoT Continuum Website](https://iotjourney.orange.com/fr-FR/iotcont
 All documentation and source code for the HL7812 Devkit are available from the IoT Continuum [HL7812 Devkit link](DevKit-HL7812/README.md).
 
 •	DEVKIT RC7620
-For the RC7620-based DevKit, the components are available from the IoT Continuum [RC7620 Devkit link](DevKit-RC7620/README.md).
+For the RC7620-based DevKit, the components are available from the IoT Continuum [RC7620 Devkit link](DevKit-RC7620).
 
 # License
 
